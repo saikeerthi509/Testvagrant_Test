@@ -1,0 +1,36 @@
+class Product:
+    def __init__(self, name, unit_price, quantity, gst_eligible, discount_eligible):
+        self.name = name
+        self.unit_price = unit_price
+        self.quantity = quantity
+        self.gst_eligible = gst_eligible
+        self.discount_eligible = discount_eligible
+
+    def calculate_total_price(self):
+        total_price = self.unit_price * self.quantity
+
+        
+        if self.discount_eligible and self.unit_price >= 500:
+            total_price *= 0.95 
+
+        return total_price
+
+    def calculate_gst_amount(self):
+      
+        if self.gst_eligible:
+            return 0.18 * self.calculate_total_price()
+        else:
+            return 0
+leather_wallet = Product("Leather Wallet", 1100, 2, True, True)
+umbrella = Product("Umbrella", 900, 3, True, False)
+cigarette = Product("Cigarette", 200, 1, False, False)
+honey = Product("Honey", 100, 4, True, False)
+basket = [leather_wallet, umbrella, cigarette, honey]
+
+max_gst_product = max(basket, key=lambda product: product.calculate_gst_amount())
+
+
+total_amount = sum(product.calculate_total_price() for product in basket)
+
+print("Product with Maximum GST Amount:", max_gst_product.name)
+print("Total Amount to be Paid:", total_amount)
